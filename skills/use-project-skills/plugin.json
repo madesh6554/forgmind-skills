@@ -1,0 +1,9 @@
+{
+  "name": "use-project-skills",
+  "version": "1.0.0",
+  "description": "Install project-level skills from the forgmind-skills repo into the current project's .claude/commands/ folder.",
+  "author": { "name": "Forgmind" },
+  "license": "MIT",
+  "repository": "https://github.com/madesh6554/forgmind-skills",
+  "keywords": ["skills", "install", "project", "commands", "claude-skill"]
+}

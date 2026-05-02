@@ -1,0 +1,63 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "forgmind-skills",
+  "description": "Forgmind team skill library — shared Claude Code slash commands for UI mockups, previews, and project workflows",
+  "owner": {
+    "name": "Forgmind",
+    "email": "forgemind.business@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "mockup",
+      "description": "Instantly generate a polished self-contained HTML preview of whatever is being discussed — auto-detects UI screens, theme comparisons, component variants, dashboards, and more.",
+      "author": { "name": "Forgmind" },
+      "category": "design",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/madesh6554/forgmind-skills.git",
+        "path": "skills/mockup",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/madesh6554/forgmind-skills"
+    },
+    {
+      "name": "preview",
+      "description": "Generate a self-contained HTML mockup page using the project's real theme colors — for UI ideas, color changes, error states, or before/after comparisons.",
+      "author": { "name": "Forgmind" },
+      "category": "design",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/madesh6554/forgmind-skills.git",
+        "path": "skills/preview",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/madesh6554/forgmind-skills"
+    },
+    {
+      "name": "use-project-skills",
+      "description": "Install project-level skills from the forgmind-skills repo into the current project's .claude/commands/ folder.",
+      "author": { "name": "Forgmind" },
+      "category": "productivity",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/madesh6554/forgmind-skills.git",
+        "path": "skills/use-project-skills",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/madesh6554/forgmind-skills"
+    },
+    {
+      "name": "forgmind-skills-guide",
+      "description": "Full guide on what the forgmind-skills repo is, how to install skills, and how to contribute new skill files to the team library.",
+      "author": { "name": "Forgmind" },
+      "category": "productivity",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/madesh6554/forgmind-skills.git",
+        "path": "skills/forgmind-skills-guide",
+        "ref": "main"
+      },
+      "homepage": "https://github.com/madesh6554/forgmind-skills"
+    }
+  ]
+}

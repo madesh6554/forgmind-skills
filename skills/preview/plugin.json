@@ -1,0 +1,9 @@
+{
+  "name": "preview",
+  "version": "1.0.0",
+  "description": "Generate a self-contained HTML mockup page using the project's real theme colors — for UI ideas, color changes, error states, or before/after comparisons.",
+  "author": { "name": "Forgmind" },
+  "license": "MIT",
+  "repository": "https://github.com/madesh6554/forgmind-skills",
+  "keywords": ["preview", "html", "mockup", "theme", "ui", "design", "claude-skill"]
+}

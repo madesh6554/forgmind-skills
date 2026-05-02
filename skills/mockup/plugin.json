@@ -1,0 +1,9 @@
+{
+  "name": "mockup",
+  "version": "1.0.0",
+  "description": "Instantly generate a polished self-contained HTML preview of whatever is being discussed — auto-detects UI screens, theme comparisons, component variants, dashboards, and more.",
+  "author": { "name": "Forgmind" },
+  "license": "MIT",
+  "repository": "https://github.com/madesh6554/forgmind-skills",
+  "keywords": ["mockup", "html", "preview", "ui", "design", "claude-skill"]
+}

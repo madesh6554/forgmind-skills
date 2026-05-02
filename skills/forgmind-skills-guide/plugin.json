@@ -1,0 +1,9 @@
+{
+  "name": "forgmind-skills-guide",
+  "version": "1.0.0",
+  "description": "Full guide on what the forgmind-skills repo is, how to install skills, and how to contribute new skill files to the team library.",
+  "author": { "name": "Forgmind" },
+  "license": "MIT",
+  "repository": "https://github.com/madesh6554/forgmind-skills",
+  "keywords": ["guide", "skills", "forgmind", "claude-skill"]
+}
