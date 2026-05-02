@@ -1,36 +1,60 @@
 ---
 name: mockup
-description: Instantly generate a polished, self-contained HTML preview of whatever is currently being discussed in the conversation. Use when the user runs /mockup and you should auto-detect the best visual format (UI screen, theme comparison, component variants, states, flow, dashboard, etc.).
+description: Generate a polished self-contained HTML file visually showing whatever is being discussed. ALWAYS outputs a real .html file — never markdown, never ASCII diagrams, never a .md file.
 ---
 
-# /mockup — Instant HTML visual preview
+# /mockup — HTML Visual Generator
 
-When the user runs `/mockup`, immediately generate a self-contained HTML preview page of whatever is currently being discussed or planned. No extra explanation needed from the user.
+**CRITICAL RULE: Always output a real `.html` file with inline CSS. Never write markdown. Never write ASCII art. Never write a `.md` file. The output must be a browser-openable HTML page.**
 
-## Auto-detect what to preview
+When the user runs `/mockup`, read the current conversation context and generate a single self-contained HTML file that visually represents it.
 
-Look at the current conversation context and decide the best visual format:
-- New screen or page → render it as a realistic UI mockup
+## What to generate based on context
+
+- Plan or process → visual flowchart or phase cards with arrows
+- UI screen or page → realistic phone/browser frame mockup
+- Architecture or system → boxes and arrows diagram in HTML/CSS
 - Color or theme change → side-by-side comparison cards
-- Component or widget → show it standalone with variants
-- Error / empty / loading states → each state labeled
-- Flow or plan → visual step cards or diagram
-- Dashboard or data view → chart/table/stat card layout
-- Anything else → use whatever layout best communicates it visually
+- Data or dashboard → stat cards, charts, table layouts
+- Before/after → two-column visual comparison
+- Timeline → horizontal or vertical step timeline
+- Anything else → use the layout that best communicates it visually
 
 ## Always do this
 
-1. If the project has a theme/color file, read it first and use the real colors
-2. If no theme file exists, pick clean neutral colors that suit the context
-3. Generate a single self-contained HTML file — inline CSS only, no external dependencies
-4. Save it where the project serves static files (e.g. `build/web/mockup.html` for Flutter, `public/mockup.html` for React/Next.js, or just the project root if unsure)
-5. Tell the user the path or URL to open it
+1. Read the conversation context — understand what needs to be visualized
+2. If the project has a theme/color file, read it and use the real colors
+3. If no theme exists, use a clean dark or light neutral palette
+4. Generate ONE `.html` file with all CSS inline — no external dependencies
+5. Save to the right location:
+   - Flutter project → `build/web/mockup.html`
+   - React/Next.js → `public/mockup.html`
+   - No framework → project root `mockup.html`
+   - Server/no frontend → `/tmp/mockup.html`
+6. Tell the user the exact path to open in browser
 
-## HTML style rules
+## HTML requirements
 
-- Clean modern look — white or dark background depending on context
-- Use cards, sections, grids, or whatever layout fits the content
-- Label each section or variant clearly
-- Title + short subtitle at the top
-- Must work fully offline (no CDN fonts, no external scripts)
-- Make it look polished — not a rough wireframe
+- Must open and render fully offline (no CDN, no external fonts, no scripts)
+- Use real HTML elements — divs, cards, flexbox, grid — not ASCII characters
+- Clean modern look: rounded cards, subtle shadows, clear typography
+- Color code phases or categories when showing plans or timelines
+- Label every section clearly
+- Title and subtitle at the top
+- Max width 1200px centered
+
+## For plans and process flows
+
+When the context is a migration plan, architecture, or multi-phase process:
+- Each phase = a colored card or step block in HTML
+- Arrows between steps using CSS or styled HTML elements
+- Summary table showing before/after or phase breakdown
+- Timeline bar if there are dates or durations
+- Color code: green = done/safe, yellow = in progress, red = risky/cutover
+
+## What NOT to do
+
+- Do NOT write a `.md` file
+- Do NOT use ASCII art boxes like `┌──────┐`
+- Do NOT output plain text diagrams
+- Do NOT explain in markdown — just generate the HTML file and tell the user the path
