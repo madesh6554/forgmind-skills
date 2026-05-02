@@ -1,80 +1,99 @@
 ---
 name: forgmind-skills-guide
-description: Explains what the forgmind-skills GitHub repo is, how to install skills from it, and how to contribute new skill files to the team library.
+description: Complete guide for the forgmind-skills GitHub repo — what it is, how to install skills via the Manage Plugins dialog or install scripts, how to add a new skill with the correct plugin structure, and the difference between user-level and project-level skills.
 ---
 
-# Forgmind Skills Library — Guide
+# Forgmind Skills Library — Complete Guide
 
 **Repo:** https://github.com/madesh6554/forgmind-skills
 
+---
+
 ## What Is This Repo?
 
-This is the **central skill library** for the Forgmind team. It stores Claude Code skill files (slash commands) that any team member can install and use across any project or server.
+This is the **central skill library** for the Forgmind team. It stores Claude Code slash commands (skills) that any team member can install on any machine or project — without recreating them from scratch each time.
 
-Instead of recreating the same skills on every machine or project, skills are stored here once and shared with everyone.
+---
+
+## How to Install Skills
+
+### Option 1 — Manage Plugins dialog (recommended)
+
+1. Open Claude Code and run `/manage-plugins`
+2. Click the **Marketplaces** tab
+3. In the input box enter: `madesh6554/forgmind-skills`
+4. Click **Add**
+5. Go to the **Plugins** tab — all skills appear listed
+6. Click install on whichever skills you want
+
+### Option 2 — One-line install script
+
+**Windows:**
+```powershell
+irm https://raw.githubusercontent.com/madesh6554/forgmind-skills/main/install.ps1 | iex
+```
+
+**Linux / Mac:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/madesh6554/forgmind-skills/main/install.sh | bash
+```
+
+This copies all user-level skills to `~/.claude/commands/` — available in every project on your machine.
+
+---
 
 ## Repo Structure
 
 ```
 forgmind-skills/
-  ├── README.md
-  ├── skills/
-  │   ├── <skill-name>.md       ← each skill is one .md file
-  │   ├── <skill-name>.md
-  │   └── ...
-  └── install.ps1               ← Windows installer script
-  └── install.sh                ← Linux/Mac installer script
+  ├── .claude-plugin/
+  │   └── marketplace.json          ← lists all skills for Manage Plugins dialog
+  ├── skills/                       ← user-level skills (generic, any project)
+  │   ├── mockup/
+  │   │   ├── SKILL.md              ← skill instructions Claude reads
+  │   │   └── plugin.json           ← plugin metadata (name, version, description)
+  │   ├── preview/
+  │   │   ├── SKILL.md
+  │   │   └── plugin.json
+  │   ├── use-project-skills/
+  │   │   ├── SKILL.md
+  │   │   └── plugin.json
+  │   └── forgmind-skills-guide/
+  │       ├── SKILL.md              ← this file
+  │       └── plugin.json
+  ├── projects/                     ← project-level skills (tied to one repo)
+  │   └── sp-sales-log/
+  │       ├── deploy-frontend.md
+  │       ├── flutter-run.md
+  │       ├── migrate-db.md
+  │       └── n8n-push.md
+  ├── SKILL_TEMPLATE.md             ← copy this to create a new skill
+  ├── install.ps1                   ← Windows installer
+  ├── install.sh                    ← Linux/Mac installer
+  ├── install-project.ps1           ← Windows project-skill installer
+  └── install-project.sh            ← Linux/Mac project-skill installer
 ```
 
-## How to Install Skills (Windows)
-
-Run this once in PowerShell to pull all skills to your machine:
-
-```powershell
-$dest = "$env:USERPROFILE\.claude\commands"
-if (-not (Test-Path $dest)) { New-Item -ItemType Directory -Path $dest }
-$tmp = "$env:TEMP\forgmind-skills"
-git clone https://github.com/madesh6554/forgmind-skills $tmp
-Copy-Item "$tmp\skills\*.md" $dest -Force
-Remove-Item -Recurse -Force $tmp
-Write-Host "Skills installed to $dest"
-```
-
-## How to Install Skills (Linux / Mac)
-
-```bash
-DEST="$HOME/.claude/commands"
-mkdir -p "$DEST"
-TMP=$(mktemp -d)
-git clone https://github.com/madesh6554/forgmind-skills "$TMP"
-cp "$TMP/skills/"*.md "$DEST/"
-rm -rf "$TMP"
-echo "Skills installed to $DEST"
-```
-
-## How to Update Skills
-
-Re-run the install script above. It overwrites existing files with the latest version from the repo.
-
-## How to Use a Skill
-
-After installing, open any Claude Code session and type:
-
-```
-/skill-name
-```
-
-The skill name matches the filename (without `.md`).
+---
 
 ## How to Add a New Skill (Contribute)
 
-1. Create a new `.md` file inside the `skills/` folder
-2. Follow this format at the top of the file:
+Every new skill needs **3 things**: a folder, a `SKILL.md`, and a `plugin.json`. Then one entry added to `marketplace.json`.
+
+### Step 1 — Create the skill folder
+
+```
+skills/your-skill-name/
+  ├── SKILL.md
+  └── plugin.json
+```
+
+### Step 2 — Write `SKILL.md`
 
 ```markdown
 ---
 name: your-skill-name
-description: One line describing what this skill does.
+description: One clear sentence — what this skill does and when to use it.
 ---
 
 # Skill Title
@@ -82,27 +101,102 @@ description: One line describing what this skill does.
 Your skill instructions here...
 ```
 
-3. Open a Pull Request to the `main` branch
-4. Once merged, anyone on the team can install it
+### Step 3 — Write `plugin.json`
 
-## How to Install a Single Skill (Without Cloning Everything)
-
-```powershell
-# Replace <skill-name> with the actual filename
-$raw = "https://raw.githubusercontent.com/madesh6554/forgmind-skills/main/skills/<skill-name>.md"
-$dest = "$env:USERPROFILE\.claude\commands\<skill-name>.md"
-Invoke-WebRequest $raw -OutFile $dest
-Write-Host "Skill installed."
+```json
+{
+  "name": "your-skill-name",
+  "version": "1.0.0",
+  "description": "Same one-line description as in SKILL.md frontmatter.",
+  "author": { "name": "YourName" },
+  "license": "MIT",
+  "repository": "https://github.com/madesh6554/forgmind-skills",
+  "keywords": ["your-skill", "claude-skill"]
+}
 ```
 
-## Rules for Contributing Skills
+### Step 4 — Add entry to `.claude-plugin/marketplace.json`
 
-- One skill per file
-- File name = skill name (use lowercase, hyphens instead of spaces)
-- Always include the frontmatter block (`name`, `description`)
-- Keep the skill focused on one clear task
+Open `.claude-plugin/marketplace.json` and add a new object inside the `"plugins"` array:
+
+```json
+{
+  "name": "your-skill-name",
+  "description": "Same one-line description.",
+  "author": { "name": "YourName" },
+  "category": "productivity",
+  "source": {
+    "source": "git-subdir",
+    "url": "https://github.com/madesh6554/forgmind-skills.git",
+    "path": "skills/your-skill-name",
+    "ref": "main"
+  },
+  "homepage": "https://github.com/madesh6554/forgmind-skills"
+}
+```
+
+Valid categories: `design`, `productivity`, `development`, `testing`, `security`
+
+### Step 5 — Open a Pull Request
+
+Push your branch and open a PR to `main`. Once merged, the skill appears in the Manage Plugins dialog for everyone.
+
+---
+
+## User-Level vs Project-Level Skills
+
+| | User-level (`skills/`) | Project-level (`projects/`) |
+|---|---|---|
+| Installs to | `~/.claude/commands/` | `./.claude/commands/` |
+| Works in | Every project on your machine | That one project only |
+| Shared via | Manage Plugins / install script | `install-project.ps1 <name>` or `/use-project-skills` |
+| Best for | Generic tools (mockup, preview) | Project-specific workflows (deploy, migrate) |
+| Format | `SKILL.md` + `plugin.json` | Plain `.md` file |
+
+### To install project-level skills
+
+Run inside your project folder:
+
+```
+/use-project-skills sp-sales-log
+```
+
+Or via script:
+
+```powershell
+# Windows — run from inside your project folder
+.\install-project.ps1 sp-sales-log
+```
+
+```bash
+# Linux/Mac — run from inside your project folder
+bash install-project.sh sp-sales-log
+```
+
+---
+
+## Available Skills
+
+### User-level (install via Manage Plugins or install script)
+| Skill | What it does |
+|---|---|
+| `/mockup` | Auto-generate HTML visual mockup from conversation context |
+| `/preview` | Generate HTML preview using project's real theme colors |
+| `/use-project-skills` | Install a project's skills into the current project |
+| `/forgmind-skills-guide` | This guide |
+
+### Project-level (install via `/use-project-skills <name>`)
+| Project | Skills |
+|---|---|
+| `sp-sales-log` | `/deploy-frontend` `/flutter-run` `/migrate-db` `/n8n-push` |
+
+---
+
+## Contribution Rules
+
+- One skill per folder
+- Folder name = skill name (lowercase, hyphens, no spaces)
+- Always include both `SKILL.md` and `plugin.json`
+- Always add an entry to `.claude-plugin/marketplace.json`
 - Test the skill before submitting a PR
-
-## Who Maintains This Repo
-
-Managed by the Forgmind team. For questions, open a GitHub Issue on the repo.
+- Generic skills → `skills/` · Project-specific → `projects/<project-name>/`
